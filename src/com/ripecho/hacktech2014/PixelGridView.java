@@ -20,12 +20,12 @@ public class PixelGridView extends View {
 	private Paint linePaint;
 	private Paint toolPaint;
 	private Paint bgPaint;
-	private int szX;
-	private int szY;
+	private float szX;
+	private float szY;
 	private int numPxX;
 	private int numPxY;
-	private int width = 1;
-	private int height = 1;
+	private float width = 1;
+	private float height = 1;
 	private ScaleGestureDetector sgd;
 	
 	
@@ -127,8 +127,8 @@ public class PixelGridView extends View {
 	}
 	
 	protected void onSizeChanged(int w, int h, int oldw, int oldh){
-		width = w;
-		height = h;
+		width = (float)w;
+		height = (float)h;
 		setDrawingArea(32,32);
 	}
 	
