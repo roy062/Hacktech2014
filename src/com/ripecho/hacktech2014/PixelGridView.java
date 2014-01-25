@@ -20,6 +20,8 @@ public class PixelGridView extends View {
 	private int szY;
 	private int numPxX;
 	private int numPxY;
+	private int width = 1;
+	private int height = 1;
 
 	
 	public PixelGridView(Context context, AttributeSet attrs) {
@@ -42,21 +44,26 @@ public class PixelGridView extends View {
 		parent = p;
 	}
 	
+	protected void onSizeChanged(int w, int h, int oldw, int oldh){
+		width = w;
+		height = h;
+	}
+	
 	private void setDrawingArea(int x, int y){
 		numPxX = x;
 		numPxY = y;
-		szX = getWidth()/x;
-		if(szX*y > getHeight()) szY = szX = getHeight()/y;
+		szX = width/x;
+		if(szX*y > height) szY = szX = height/y;
 		else szY = szX;
 	}
 	
 	protected void onDraw(Canvas canvas){
 		super.onDraw(canvas);
-		for(int i = szX; i < getWidth(); i += szX){
-			canvas.drawLine(i, 0, i, getHeight(), linePaint);
+		for(int i = szX; i < width; i += szX){
+			canvas.drawLine(i, 0, i, height, linePaint);
 		}
-		for(int i = szY; i < getHeight(); i += szY){
-			canvas.drawLine(0, i, getWidth(), i, linePaint);
+		for(int i = szY; i < height; i += szY){
+			canvas.drawLine(0, i, width, i, linePaint);
 		}
 	}
 	
