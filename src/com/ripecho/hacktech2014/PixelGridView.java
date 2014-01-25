@@ -146,10 +146,10 @@ public class PixelGridView extends View {
 		canvas.save();
 		canvas.scale(mScaleFactor, mScaleFactor, width/2, height/2);
 		canvas.translate(mPosX, mPosY);
-		canvas.drawRect(0, 0, width, height, bgPaint);
-		for(int i = 0; i <= width; i += szX){
-			canvas.drawLine(i, 0, i, height, linePaint);
-			Log.d("DEBUG", "" + i);
+		canvas.drawRect(0, 0, szX*numPxX, szY*numPxY, bgPaint);
+		for(int i = 0; i <= szX*numPxX; i += szX){
+			canvas.drawLine(i, 0, i, szY*numPxY, linePaint);
+			
 		}
 		for(int i = 0; i <= height; i += szY){
 			canvas.drawLine(0, i, width, i, linePaint);
