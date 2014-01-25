@@ -1,7 +1,10 @@
 package com.ripecho.hacktech2014;
 
+
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,14 +15,19 @@ import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.*;
+import android.widget.EditText;
 
 
-public class ColorPaletteView extends View implements OnClickListener, OnLongClickListener{
+public class ColorPaletteView extends View implements OnClickListener, OnLongClickListener,DialogInterface.OnClickListener{
 
 	public static final int MAX_PALETTE_COLORS = 16;
+	int currentIndex = 0;
 	private DrawActivity parent;
 	private boolean isExpanded = false;
 	private int dispWidth,dispHeight;
+	private boolean isColorWheel = false;
+	private Paint color;
+	ColorWheelDialog cwheel;
 
 	private int[] paletteColors = new int[MAX_PALETTE_COLORS];
 	
@@ -28,7 +36,8 @@ public class ColorPaletteView extends View implements OnClickListener, OnLongCli
 		for(int i =0;i<MAX_PALETTE_COLORS;i++){
 			paletteColors[i] = Color.TRANSPARENT;
 		}
-		
+		cwheel = new ColorWheelDialog();
+		color = new Paint();
 		Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
@@ -45,30 +54,48 @@ public class ColorPaletteView extends View implements OnClickListener, OnLongCli
 		paint.drawColor(Color.CYAN);
 		
 		if(!isExpanded){
-			Paint textColor = new Paint();
-			textColor.setColor(Color.DKGRAY);
-			paint.drawText("Color Palette", .1f*getWidth(), getHeight(), textColor);
+			
+			color.setColor(Color.DKGRAY);
+			paint.drawText("Color Palette", .1f*getWidth(), getHeight(), color);
 		}
 		else{
-			drawColorWheel(getWidth()/2,getHeight()/3,paint);
+			
+			
+			for(int i=0; i<8;i++){
+				color.setColor(paletteColors[i]);
+				paint.drawRect(i*getWidth()/8, 0, (i+1)*getWidth()/8, getHeight()/2, color);
+				color.setColor(paletteColors[i+8]);
+				paint.drawRect(i*getWidth()/8, getHeight()/2, (i+1)*getWidth()/8, getHeight(), color);
+			}
 		}
 	}
 	
 	public void onClick(View click){
-		if(isExpanded)
-			parent.setColor(paletteColors[getPaletteIndex(click)]);
-		else{
-			setLayoutParams(new ViewGroup.LayoutParams(getWidth(),(int)(dispHeight*.25) ));
-			isExpanded=true;
+		if(!isColorWheel){
+			currentIndex = getPaletteIndex(click);
+			if(isExpanded&&paletteColors[getPaletteIndex(click)]!=Color.TRANSPARENT){
+				parent.setColor(paletteColors[getPaletteIndex(click)]);
+			}
+			else if (isExpanded){
+				
+				cwheel.setListener(this);
+				cwheel.show(cwheel.getFragmentManager(),"ColorWheel");
+				isColorWheel = true;
+			}
+			else{
+				setLayoutParams(new ViewGroup.LayoutParams(getWidth(),(int)(dispHeight*.25) ));
+				isExpanded=true;
+			}
+				
 		}
-			
-		
 	}
 	
 	public boolean onLongClick(View click){
 		if(isExpanded){
+			cwheel.setListener(this);
+			cwheel.show(cwheel.getFragmentManager(),"ColorWheel");
+			isColorWheel = true;
 			
-			paletteColors[getPaletteIndex(click)] = 1; //FIX ME PLACEHOLDER
 		}
 		else
 			isExpanded=true;
@@ -90,13 +117,30 @@ public class ColorPaletteView extends View implements OnClickListener, OnLongCli
 		
 		return paletteX+8*paletteY;
 	}
-	
-	private void drawColorWheel(int x, int y, Canvas paint){
-		Paint tempColour = new Paint();
-		tempColour.setColor(Color.WHITE);
-		tempColour.setStrokeWidth(y/8.0f);
-		RectF bounds = new RectF(x-y/4,y-y/4,x+y/4,y+y/4);
-		paint.drawOval(bounds, tempColour);
+
+	@Override
+	public void onClick(DialogInterface dialog, int which) {
+		EditText red = (EditText) findViewById(R.id.red);
+		EditText green = (EditText) findViewById(R.id.green);
+		EditText blue = (EditText) findViewById(R.id.blue);
+		
+		switch(which){
+		case DialogInterface.BUTTON_POSITIVE:
+			int r = Integer.parseInt(red.getText().toString());
+			int g = Integer.parseInt(green.getText().toString());
+			int b = Integer.parseInt(blue.getText().toString());
+			paletteColors[currentIndex] = Color.rgb(r, g, b);
+			break;
+		case DialogInterface.BUTTON_NEGATIVE:
+			break;
+		default:
+				break;
+		}
+		isColorWheel = false;
+		dialog.dismiss();
+		
 	}
+	
+	
 	
 }

@@ -1,0 +1,31 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    
+    <EditTextPreference
+        android:defaultValue="@string/default_filename"
+        android:inputType="textCapWords"
+        android:key="example_text"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/filename" />
+
+    <EditTextPreference 
+        android:defaultValue="@string/default_dimension"
+        android:inputType="number"
+        android:selectAllOnFocus="true"
+        android:title="@string/width" />
+    
+    <EditTextPreference 
+        android:defaultValue="@string/default_dimension"
+        android:inputType="number"
+        android:selectAllOnFocus="true"
+        android:title="@string/height" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="example_checkbox"
+        android:title="@string/palette_lock" />
+    
+
+</PreferenceScreen>

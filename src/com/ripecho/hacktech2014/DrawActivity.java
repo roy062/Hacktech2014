@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -16,7 +17,7 @@ import android.widget.PopupMenu;
 
 public class DrawActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
 	
-	private final static int DEFAULT_DIMENSION = 512;
+	private final static int DEFAULT_DIMENSION = 32;
 	
 	private int curColor = Color.BLACK;
 	private boolean colorLock = false;
@@ -39,12 +40,12 @@ public class DrawActivity extends Activity implements PopupMenu.OnMenuItemClickL
 		
 		ToolBarView tbv = (ToolBarView)findViewById(R.id.tool_bar);
 		//tbv.setParent(this);
-		fileMenu = new PopupMenu(this, pgv);
+		fileMenu = new PopupMenu(this, tbv);
 		fileMenu.inflate(R.menu.draw_activity_menu);
+		fileMenu.setOnMenuItemClickListener(this);
 	}
 	
-	public void testFunc(View v)
-	{
+	public void testFunc(View v){
 		fileMenu.show();
 	}
 	
@@ -96,7 +97,7 @@ public class DrawActivity extends Activity implements PopupMenu.OnMenuItemClickL
 	}
 	
 	public Bitmap getBitmap() {
-		return null;
+		return bitmap;
 	}
 	
 	public void setBitmap(String pathName) {
@@ -155,6 +156,8 @@ public class DrawActivity extends Activity implements PopupMenu.OnMenuItemClickL
 		case R.id.save_menu:
 			return true;
 		case R.id.options_menu:
+			Intent intent = new Intent(this, OptionsActivity.class);
+			startActivity(intent);
 			return true;
 		}
 		return false;
