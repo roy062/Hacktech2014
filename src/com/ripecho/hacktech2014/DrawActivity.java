@@ -1,5 +1,8 @@
 package com.ripecho.hacktech2014;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -9,6 +12,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 public class DrawActivity extends Activity {
+	
+	private final static int DEFAULT_DIMENSION = 512;
 	
 	private int curColor = Color.BLACK;
 	private boolean colorLock = false;
@@ -20,6 +25,8 @@ public class DrawActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.draw_activity);
 		
+		bitmap = Bitmap.createBitmap(DEFAULT_DIMENSION, DEFAULT_DIMENSION, Bitmap.Config.ARGB_8888);
+		
 		ColorPaletteView cpv = (ColorPaletteView)findViewById(R.id.color_palette);
 		cpv.setParent(this);
 		
@@ -30,8 +37,30 @@ public class DrawActivity extends Activity {
 		tbv.setParent(this);
 	}
 	
+	protected void onPause() {
+		getPreferences(MODE_PRIVATE).edit()
+			.clear()
+			.putInt("curColor",  curColor)
+			.putBoolean("colorLock", colorLock)
+			.putInt("curTool", curTool.getValue())
+			.apply();
+		try
+		{
+			FileOutputStream temp = new FileOutputStream(new File(getFilesDir(), "temp.png"));
+			bitmap.compress(Bitmap.CompressFormat.PNG, 100, temp);
+		}
+		catch (FileNotFoundException e)
+		{
+			
+		}
+	}
+	
 	public void setColor(int a, int r, int g, int b) {	
 		curColor = Color.argb(a, r, g, b);
+	}
+	
+	public void setColor(int argb) {
+		curColor = argb;
 	}
 
 	public int getColor() {
