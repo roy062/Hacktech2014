@@ -51,7 +51,8 @@ public class PixelGridView extends View {
 		bgPaint.setColor(Color.GRAY);
 		setBackgroundColor(Color.GRAY);
 		bgPaint.setColor(Color.LTGRAY);
-		setBackgroundColor(Color.LTGRAY);
+		bgPaint.setStyle(Paint.Style.FILL);
+		setBackgroundColor(Color.GRAY);
 		sgd = new ScaleGestureDetector(context, new ScaleListener());
 
 		setDrawingArea(32,32);
@@ -139,12 +140,8 @@ public class PixelGridView extends View {
 		numPxX = x;
 		numPxY = y;
 		szX = width/x;
-		Log.d("DEBUG", "width: " + width);
-		Log.d("DEBUG", "height: " + height);
 		if(szX*y > height) szY = szX = height/y;
 		else szY = szX;
-		Log.d("DEBUG", "szX: " + szX);
-		Log.d("DEBUG", "szY: " + szY);
 	}
 	
 	protected void onDraw(Canvas canvas){
@@ -153,7 +150,8 @@ public class PixelGridView extends View {
 		canvas.save();
 		canvas.translate(mPosX, mPosY);
 		canvas.scale(mScaleFactor, mScaleFactor);
-		for(int i = szX; i < width; i += szX){
+		canvas.drawRect(0, 0, width, height, bgPaint);
+		for(int i = 0; i <= width; i += szX){
 			canvas.drawLine(i, 0, i, height, linePaint);
 		}
 		for(int i = szY; i < height; i += szY){
