@@ -15,6 +15,8 @@ public class ToolBarView extends View {
 		super(context, attrs);
 		parent = (DrawActivity)context;
 		
+		LinearLayout ll = new LinearLayout(parent);
+		
 		Button pencilbtn = new Button(parent);
 		pencilbtn.setText("Pencil");
 		pencilbtn.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
@@ -70,6 +72,12 @@ public class ToolBarView extends View {
 				toolSelect = setTool(Tool.NULL);
 			}
 		});
+		
+		ll.addView(pencilbtn);
+		ll.addView(dropperbtn);
+		ll.addView(eraserbtn);
+		ll.addView(bucketbtn);
+		ll.addView(filebtn);
 		
 	}
 	
