@@ -156,9 +156,10 @@ public class DrawActivity extends Activity implements PopupMenu.OnMenuItemClickL
 		case R.id.save_menu:
 			return true;
 		case R.id.options_menu:
-			Intent intent = new Intent(this, OptionsActivity.class);
-			startActivity(intent);
+			//Intent intent = new Intent(this, OptionsActivity.class);
+			//startActivity(intent);
 			//getPe
+			getFragmentManager().beginTransaction().replace(android.R.id.content, new OptionsFragment()).commit();
 			return true;
 		}
 		return false;
