@@ -81,7 +81,11 @@ public class OptionsActivity extends PreferenceActivity {
 		bindPreferenceSummaryToValue(findPreference("example_list"));
 		bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
 		bindPreferenceSummaryToValue(findPreference("sync_frequency"));*/
+		
 		addPreferencesFromResource(R.xml.draw_preferences);
+		bindPreferenceSummaryToValue(findPreference("filename_key"));
+		bindPreferenceSummaryToValue(findPreference("width_key"));
+		bindPreferenceSummaryToValue(findPreference("height_key"));
 	}
 
 	/** {@inheritDoc} */

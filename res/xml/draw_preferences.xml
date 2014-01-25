@@ -4,7 +4,7 @@
     <EditTextPreference
         android:defaultValue="@string/default_filename"
         android:inputType="textCapWords"
-        android:key="example_text"
+        android:key="filename_key"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
@@ -14,12 +14,14 @@
         android:defaultValue="@string/default_dimension"
         android:inputType="number"
         android:selectAllOnFocus="true"
+        android:key="width_key"
         android:title="@string/width" />
     
     <EditTextPreference 
         android:defaultValue="@string/default_dimension"
         android:inputType="number"
         android:selectAllOnFocus="true"
+        android:key="height_key"
         android:title="@string/height" />
     
     <CheckBoxPreference
