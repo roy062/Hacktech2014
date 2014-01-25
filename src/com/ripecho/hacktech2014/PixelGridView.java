@@ -24,6 +24,9 @@ public class PixelGridView extends View {
 	
 	public PixelGridView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		linePaint = new Paint();
+		toolPaint = new Paint();
+		bgPaint = new Paint();
 		
 		linePaint.setColor(Color.BLACK);
 		linePaint.setStrokeWidth(0);
