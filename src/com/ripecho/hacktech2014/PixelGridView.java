@@ -164,7 +164,7 @@ public class PixelGridView extends View {
 	    	mScaleFactor *= detector.getScaleFactor();
 	        
 	        // Don't let the object get too small or too large.
-	        mScaleFactor = Math.max(Math.min(mScaleFactor, 1.5f),(2/numPxX));
+	        mScaleFactor = Math.max((8/numPxX), Math.min(mScaleFactor, 5f));
 
 	        invalidate();
 	        return true;
