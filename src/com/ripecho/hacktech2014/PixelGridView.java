@@ -24,6 +24,7 @@ public class PixelGridView extends View {
 	
 	public PixelGridView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		parent = (DrawActivity) context;
 		linePaint = new Paint();
 		toolPaint = new Paint();
 		bgPaint = new Paint();
