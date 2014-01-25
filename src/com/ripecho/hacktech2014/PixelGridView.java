@@ -48,11 +48,9 @@ public class PixelGridView extends View {
 		linePaint.setColor(Color.BLACK);
 		linePaint.setStrokeWidth(0);
 		toolPaint.setColor(parent.getColor());
-		bgPaint.setColor(Color.GRAY);
-		setBackgroundColor(Color.GRAY);
 		bgPaint.setColor(Color.LTGRAY);
 		bgPaint.setStyle(Paint.Style.FILL);
-		setBackgroundColor(Color.GRAY);
+		setBackgroundColor(Color.DKGRAY);
 		sgd = new ScaleGestureDetector(context, new ScaleListener());
 
 		setDrawingArea(32,32);
@@ -168,7 +166,7 @@ public class PixelGridView extends View {
 	    	mScaleFactor *= detector.getScaleFactor();
 	        
 	        // Don't let the object get too small or too large.
-	        mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
+	        mScaleFactor = Math.max((2/numPxX), Math.min(mScaleFactor, 3.0f));
 
 	        invalidate();
 	        return true;
