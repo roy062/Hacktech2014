@@ -6,20 +6,25 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 
-public class DrawActivity extends Activity {
+public class DrawActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
 	
-	private final static int DEFAULT_DIMENSION = 512;
+	private final static int DEFAULT_DIMENSION = 32;
 	
 	private int curColor = Color.BLACK;
 	private boolean colorLock = false;
 	private Tool curTool = Tool.PENCIL;
 	private Bitmap bitmap;
 	private ArrayList<CursorOrigin> cursorOrigins = new ArrayList<CursorOrigin>(10);
+	private PopupMenu fileMenu;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,10 +39,18 @@ public class DrawActivity extends Activity {
 		pgv.setParent(this);
 		
 		ToolBarView tbv = (ToolBarView)findViewById(R.id.tool_bar);
-		tbv.setParent(this);
+		//tbv.setParent(this);
+		fileMenu = new PopupMenu(this, tbv);
+		fileMenu.inflate(R.menu.draw_activity_menu);
+		fileMenu.setOnMenuItemClickListener(this);
+	}
+	
+	public void testFunc(View v){
+		fileMenu.show();
 	}
 	
 	protected void onPause() {
+		super.onPause();
 		getPreferences(MODE_PRIVATE).edit()
 			.clear()
 			.putInt("curColor",  curColor)
@@ -80,10 +93,11 @@ public class DrawActivity extends Activity {
 	}
 	
 	public void openFileMenu() {
+		fileMenu.show();
 	}
 	
 	public Bitmap getBitmap() {
-		return null;
+		return bitmap;
 	}
 	
 	public void setBitmap(String pathName) {
@@ -129,5 +143,23 @@ public class DrawActivity extends Activity {
 			this.id = id;
 			this.origin = origin;
 		}
+	}
+
+	@Override
+	public boolean onMenuItemClick(MenuItem item) {
+		switch (item.getItemId())
+		{
+		case R.id.new_menu:
+			return true;
+		case R.id.open_menu:
+			return true;
+		case R.id.save_menu:
+			return true;
+		case R.id.options_menu:
+			Intent intent = new Intent(this, OptionsActivity.class);
+			startActivity(intent);
+			return true;
+		}
+		return false;
 	}
 }
