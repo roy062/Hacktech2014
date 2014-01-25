@@ -58,6 +58,7 @@ public class PixelGridView extends View {
 	}
 
 	public boolean onTouchEvent(MotionEvent ev) {
+		
 	    // Let the ScaleGestureDetector inspect all events.
 	    sgd.onTouchEvent(ev);
 	    
@@ -148,16 +149,16 @@ public class PixelGridView extends View {
 	
 	protected void onDraw(Canvas canvas){
 		super.onDraw(canvas);
+		
+		canvas.save();
+		canvas.translate(mPosX, mPosY);
+		canvas.scale(mScaleFactor, mScaleFactor);
 		for(int i = szX; i < width; i += szX){
 			canvas.drawLine(i, 0, i, height, linePaint);
 		}
 		for(int i = szY; i < height; i += szY){
 			canvas.drawLine(0, i, width, i, linePaint);
 		}
-		
-		canvas.save();
-		canvas.translate(mPosX, mPosY);
-		canvas.scale(mScaleFactor, mScaleFactor);
 		canvas.restore();
 		
 		invalidate();
@@ -166,7 +167,7 @@ public class PixelGridView extends View {
 	private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
 	    @Override
 	    public boolean onScale(ScaleGestureDetector detector) {
-	        mScaleFactor *= detector.getScaleFactor();
+	    	mScaleFactor *= detector.getScaleFactor();
 	        
 	        // Don't let the object get too small or too large.
 	        mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));

@@ -9,16 +9,17 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.view.View.*;
 import android.widget.EditText;
 
 
-public class ColorPaletteView extends View implements OnClickListener, OnLongClickListener,DialogInterface.OnClickListener{
+public class ColorPaletteView extends View implements View.OnClickListener, OnLongClickListener,DialogInterface.OnClickListener{
 
 	public static final int MAX_PALETTE_COLORS = 16;
 	int currentIndex = 0;
@@ -72,6 +73,7 @@ public class ColorPaletteView extends View implements OnClickListener, OnLongCli
 	
 	public void onClick(View click){
 		if(!isColorWheel){
+			Log.d("DEBUG", "hi");
 			currentIndex = getPaletteIndex(click);
 			if(isExpanded&&paletteColors[getPaletteIndex(click)]!=Color.TRANSPARENT){
 				parent.setColor(paletteColors[getPaletteIndex(click)]);

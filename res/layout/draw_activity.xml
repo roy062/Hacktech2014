@@ -23,6 +23,7 @@
         android:layout_above="@id/tool_bar"
         />
     
+   
     <com.ripecho.hacktech2014.ColorPaletteView
         android:id="@+id/color_palette"
         android:layout_width="fill_parent"
