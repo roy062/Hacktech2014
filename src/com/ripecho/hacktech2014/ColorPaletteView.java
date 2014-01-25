@@ -1,8 +1,12 @@
 package com.ripecho.hacktech2014;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.View;
@@ -16,7 +20,7 @@ public class ColorPaletteView extends View implements OnClickListener, OnLongCli
 	private DrawActivity parent;
 	private boolean isExpanded = false;
 	private int dispWidth,dispHeight;
-	
+
 	private int[] paletteColors = new int[MAX_PALETTE_COLORS];
 	
 	public ColorPaletteView(Context context, AttributeSet attrs) {
@@ -25,7 +29,7 @@ public class ColorPaletteView extends View implements OnClickListener, OnLongCli
 			paletteColors[i] = Color.TRANSPARENT;
 		}
 		
-		Display display = parent.getWindowManager().getDefaultDisplay();
+		Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
 		dispWidth = size.x;
@@ -34,6 +38,20 @@ public class ColorPaletteView extends View implements OnClickListener, OnLongCli
 	
 	public void setParent(DrawActivity parent){
 		this.parent = parent;
+	}
+	
+	protected void onDraw(Canvas paint){
+		super.onDraw(paint);
+		paint.drawColor(Color.CYAN);
+		
+		if(!isExpanded){
+			Paint textColor = new Paint();
+			textColor.setColor(Color.DKGRAY);
+			paint.drawText("Color Palette", .1f*getWidth(), getHeight(), textColor);
+		}
+		else{
+			drawColorWheel(getWidth()/2,getHeight()/3,paint);
+		}
 	}
 	
 	public void onClick(View click){
@@ -71,6 +89,14 @@ public class ColorPaletteView extends View implements OnClickListener, OnLongCli
 		if(paletteX>8) paletteX=8;
 		
 		return paletteX+8*paletteY;
+	}
+	
+	private void drawColorWheel(int x, int y, Canvas paint){
+		Paint tempColour = new Paint();
+		tempColour.setColor(Color.WHITE);
+		tempColour.setStrokeWidth(y/8.0f);
+		RectF bounds = new RectF(x-y/4,y-y/4,x+y/4,y+y/4);
+		paint.drawOval(bounds, tempColour);
 	}
 	
 }
