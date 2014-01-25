@@ -131,7 +131,7 @@ public class PixelGridView extends View {
 	protected void onSizeChanged(int w, int h, int oldw, int oldh){
 		width = w;
 		height = h;
-		setDrawingArea(32,32);
+		setDrawingArea(24,32);
 	}
 	
 	private void setDrawingArea(int x, int y){
@@ -159,6 +159,8 @@ public class PixelGridView extends View {
 		canvas.translate(mPosX, mPosY);
 		canvas.scale(mScaleFactor, mScaleFactor);
 		canvas.restore();
+		
+		invalidate();
 	}
 	
 	private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
