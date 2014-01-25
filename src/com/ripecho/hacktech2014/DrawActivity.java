@@ -41,4 +41,14 @@ public class DrawActivity extends Activity {
 	
 	void drawToBitmap(int x, int y, int argb) {
 	}
+	
+	void addCursorOrigin(int id, ViewOrigin origin) {
+	}
+	
+	void removeCursorOrigin(int id) {
+	}
+	
+	ViewOrigin getCursorOrigin(int id) {
+		return ViewOrigin.COLOR_PALETTE;
+	}
 }
