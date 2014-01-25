@@ -8,5 +8,10 @@
     <string name="open_menu">Open file</string>
     <string name="save_menu">Save file</string>
     <string name="options_menu">Options</string>
+    <string name="red">Red</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
+    <string name="ok">Accept</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
