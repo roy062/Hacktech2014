@@ -13,10 +13,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 
 public class ColorPaletteView extends View implements View.OnClickListener, OnLongClickListener,DialogInterface.OnClickListener{
@@ -44,6 +43,7 @@ public class ColorPaletteView extends View implements View.OnClickListener, OnLo
 		display.getSize(size);
 		dispWidth = size.x;
 		dispHeight = size.y;
+		this.setOnClickListener(this);
 	}
 	
 	public void setParent(DrawActivity parent){
@@ -85,7 +85,7 @@ public class ColorPaletteView extends View implements View.OnClickListener, OnLo
 				isColorWheel = true;
 			}
 			else{
-				setLayoutParams(new ViewGroup.LayoutParams(getWidth(),(int)(dispHeight*.25) ));
+				setLayoutParams(new RelativeLayout.LayoutParams(getWidth(),(int)(dispHeight*.25) ));
 				isExpanded=true;
 			}
 				
