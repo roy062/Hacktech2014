@@ -10,6 +10,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.PopupMenu;
 
 public class DrawActivity extends Activity {
 	
@@ -20,6 +22,7 @@ public class DrawActivity extends Activity {
 	private Tool curTool = Tool.PENCIL;
 	private Bitmap bitmap;
 	private ArrayList<CursorOrigin> cursorOrigins = new ArrayList<CursorOrigin>(10);
+	private PopupMenu fileMenu;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,9 +38,12 @@ public class DrawActivity extends Activity {
 		
 		ToolBarView tbv = (ToolBarView)findViewById(R.id.tool_bar);
 		tbv.setParent(this);
+		fileMenu = new PopupMenu(this, tbv);
+		fileMenu.inflate(R.menu.draw_activity_menu);
 	}
 	
 	protected void onPause() {
+		super.onPause();
 		getPreferences(MODE_PRIVATE).edit()
 			.clear()
 			.putInt("curColor",  curColor)
@@ -80,6 +86,7 @@ public class DrawActivity extends Activity {
 	}
 	
 	public void openFileMenu() {
+		fileMenu.show();
 	}
 	
 	public Bitmap getBitmap() {
