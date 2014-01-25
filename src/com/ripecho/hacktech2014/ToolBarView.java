@@ -13,6 +13,7 @@ public class ToolBarView extends View {
 	
 	public ToolBarView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		parent = (DrawActivity)context;
 		
 		Button pencilbtn = new Button(parent);
 		pencilbtn.setText("Pencil");
@@ -21,7 +22,7 @@ public class ToolBarView extends View {
 		{
 			public void onClick(View v)
 			{
-				toolSelect = setTool(PENCIL);
+				toolSelect = setTool(Tool.PENCIL);
 			}
 		});
 	
@@ -33,7 +34,7 @@ public class ToolBarView extends View {
 		{
 			public void onClick(View v)
 			{
-				toolSelect = setTool(EYE_DROPPER);
+				toolSelect = setTool(Tool.EYE_DROPPER);
 			}
 		});
 		
@@ -44,7 +45,7 @@ public class ToolBarView extends View {
 		{
 			public void onClick(View v)
 			{
-				toolSelect = setTool(ERASER);
+				toolSelect = setTool(Tool.ERASER);
 			}
 		});
 		
@@ -55,7 +56,7 @@ public class ToolBarView extends View {
 		{
 			public void onClick(View v)
 			{
-				toolSelect = setTool(BUCKET);
+				toolSelect = setTool(Tool.BUCKET);
 			}
 		});
 		
@@ -66,7 +67,7 @@ public class ToolBarView extends View {
 		{
 			public void onClick(View v)
 			{
-				toolSelect = setTool(NULL);
+				toolSelect = setTool(Tool.NULL);
 			}
 		});
 		
