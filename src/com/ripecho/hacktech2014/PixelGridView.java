@@ -129,7 +129,7 @@ public class PixelGridView extends View {
 	protected void onSizeChanged(int w, int h, int oldw, int oldh){
 		width = (float)w;
 		height = (float)h;
-		setDrawingArea(32,32);
+		setDrawingArea(64,64);
 	}
 	
 	private void setDrawingArea(int x, int y){
