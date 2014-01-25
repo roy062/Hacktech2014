@@ -2,6 +2,7 @@ package com.ripecho.hacktech2014;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.graphics.Bitmap;
@@ -36,8 +37,6 @@ public class PixelGridView extends View {
 		toolPaint.setColor(parent.getColor());
 		bgPaint.setColor(Color.GRAY);
 		setBackgroundColor(Color.GRAY);
-		setDrawingArea(32,32);
-		
 	}
 
 	public void setParent(DrawActivity p){
@@ -47,14 +46,19 @@ public class PixelGridView extends View {
 	protected void onSizeChanged(int w, int h, int oldw, int oldh){
 		width = w;
 		height = h;
+		setDrawingArea(32,32);
 	}
 	
 	private void setDrawingArea(int x, int y){
 		numPxX = x;
 		numPxY = y;
 		szX = width/x;
+		Log.d("DEBUG", "width: " + width);
+		Log.d("DEBUG", "height: " + height);
 		if(szX*y > height) szY = szX = height/y;
 		else szY = szX;
+		Log.d("DEBUG", "szX: " + szX);
+		Log.d("DEBUG", "szY: " + szY);
 	}
 	
 	protected void onDraw(Canvas canvas){

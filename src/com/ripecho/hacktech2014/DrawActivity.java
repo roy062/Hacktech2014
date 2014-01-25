@@ -10,10 +10,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-public class DrawActivity extends Activity {
+public class DrawActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
 	
 	private final static int DEFAULT_DIMENSION = 512;
 	
@@ -37,9 +38,14 @@ public class DrawActivity extends Activity {
 		pgv.setParent(this);
 		
 		ToolBarView tbv = (ToolBarView)findViewById(R.id.tool_bar);
-		tbv.setParent(this);
-		fileMenu = new PopupMenu(this, tbv);
+		//tbv.setParent(this);
+		fileMenu = new PopupMenu(this, pgv);
 		fileMenu.inflate(R.menu.draw_activity_menu);
+	}
+	
+	public void testFunc(View v)
+	{
+		fileMenu.show();
 	}
 	
 	protected void onPause() {
@@ -136,5 +142,21 @@ public class DrawActivity extends Activity {
 			this.id = id;
 			this.origin = origin;
 		}
+	}
+
+	@Override
+	public boolean onMenuItemClick(MenuItem item) {
+		switch (item.getItemId())
+		{
+		case R.id.new_menu:
+			return true;
+		case R.id.open_menu:
+			return true;
+		case R.id.save_menu:
+			return true;
+		case R.id.options_menu:
+			return true;
+		}
+		return false;
 	}
 }
