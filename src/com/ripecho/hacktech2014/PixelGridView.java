@@ -151,8 +151,8 @@ public class PixelGridView extends View {
 			canvas.drawLine(i, 0, i, szY*numPxY, linePaint);
 			
 		}
-		for(int i = 0; i <= height; i += szY){
-			canvas.drawLine(0, i, width, i, linePaint);
+		for(int i = 0; i <= szY*numPxY; i += szY){
+			canvas.drawLine(0, i, szX*numPxX, i, linePaint);
 		}
 		canvas.restore();
 		
