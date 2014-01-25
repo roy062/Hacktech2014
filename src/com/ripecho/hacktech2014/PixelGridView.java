@@ -52,8 +52,6 @@ public class PixelGridView extends View {
 		bgPaint.setStyle(Paint.Style.FILL);
 		setBackgroundColor(Color.DKGRAY);
 		sgd = new ScaleGestureDetector(context, new ScaleListener());
-
-		setDrawingArea(32,32);
 	}
 
 	public boolean onTouchEvent(MotionEvent ev) {
@@ -131,7 +129,7 @@ public class PixelGridView extends View {
 	protected void onSizeChanged(int w, int h, int oldw, int oldh){
 		width = w;
 		height = h;
-		setDrawingArea(24,32);
+		setDrawingArea(32,32);
 	}
 	
 	private void setDrawingArea(int x, int y){
@@ -147,7 +145,7 @@ public class PixelGridView extends View {
 		
 		canvas.save();
 		canvas.translate(mPosX, mPosY);
-		canvas.scale(mScaleFactor, mScaleFactor);
+		canvas.scale(mScaleFactor, mScaleFactor, width/2, height/2);
 		canvas.drawRect(0, 0, width, height, bgPaint);
 		for(int i = 0; i <= width; i += szX){
 			canvas.drawLine(i, 0, i, height, linePaint);
@@ -166,7 +164,7 @@ public class PixelGridView extends View {
 	    	mScaleFactor *= detector.getScaleFactor();
 	        
 	        // Don't let the object get too small or too large.
-	        mScaleFactor = Math.max((2/numPxX), Math.min(mScaleFactor, 3.0f));
+	        mScaleFactor = Math.max((2/numPxX), Math.min(mScaleFactor, 1.5f));
 
 	        invalidate();
 	        return true;
