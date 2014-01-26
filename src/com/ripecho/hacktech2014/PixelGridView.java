@@ -1,19 +1,16 @@
 package com.ripecho.hacktech2014;
 
 import android.content.Context;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.Display;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
-import android.view.ScaleGestureDetector.OnScaleGestureListener;
-import android.view.View;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Rect;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
+import android.view.View;
 
 public class PixelGridView extends View implements View.OnClickListener{
 	private DrawActivity parent;
@@ -38,6 +35,7 @@ public class PixelGridView extends View implements View.OnClickListener{
 	private float mScaleFactor = 1.f;
 	private Bitmap gridMap; 
 
+	private Matrix inverse;
 	
 	public PixelGridView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -98,6 +96,13 @@ public class PixelGridView extends View implements View.OnClickListener{
 	    }
 	        
 	    case MotionEvent.ACTION_UP: {
+	    	if (ev.findPointerIndex(mActivePointerId) != -1)
+	    	{
+		    	int pointerIndex = ev.findPointerIndex(mActivePointerId);
+		    	Log.d("DEBUG", "x: " + convertX(ev.getX(pointerIndex)));
+	            Log.d("DEBUG", "y: " + convertY(ev.getY(pointerIndex)));
+	            updateBitmap(convertX(ev.getX(pointerIndex)), convertY(ev.getY(pointerIndex)), parent.getBitmap(), parent.getColor());
+	    	}
 	        mActivePointerId = INVALID_POINTER_ID;
 	        break;
 	    }
@@ -146,40 +151,63 @@ public class PixelGridView extends View implements View.OnClickListener{
 	}
 	
 	private int convertX(float x){
-		float temp = x/width;
+		/*float temp = x/width;
 		temp = temp*numPxX;
-		return (int)temp;
+		return (int)temp;*/
+		return (int)((x - mPosX / mScaleFactor) / mScaleFactor / szX);
+		//return (int)x;
 	}
 	
 	private int convertY(float y){
-		float temp = y/height;
+		/*float temp = y/height;
 		temp = temp*numPxY;
-		return (int)temp;
+		return (int)temp;*/
+		return (int)((y - mPosY / mScaleFactor) / mScaleFactor / szY);
+	}
+	
+	private void convertCoord(float x, float y)
+	{
+		float[] input = new float[9];
+		input[0] = x;
+		input[4] = y;
+		input[8] = 1;
+		
 	}
 	
 	private void updateBitmap(float x, float y, Bitmap bmp, int col){
-		bmp.setPixel(convertX(x), convertY(y), col);
+		if ((int)x >= 0 && (int)x < parent.getBitmap().getWidth() && (int)y >= 0 && (int)y < parent.getBitmap().getHeight())
+			bmp.setPixel((int)x, (int)y, col);
 	}
 	
 	public void onClick(View v){
 		updateBitmap(v.getX(),v.getY(),gridMap,parent.getColor());
 	}
-
 	
 	protected void onDraw(Canvas canvas){
 		super.onDraw(canvas);
 		
 		canvas.save();
 		canvas.scale(mScaleFactor, mScaleFactor, width/2, height/2);
-		canvas.translate(mPosX/(2*mScaleFactor), mPosY/(2*mScaleFactor));
+		//canvas.scale(mScaleFactor, mScaleFactor);
+		canvas.translate(mPosX/(mScaleFactor), mPosY/(mScaleFactor));
 		canvas.drawRect(0, 0, szX*numPxX, szY*numPxY, bgPaint);
-		for(int i = 0; i <= szX*numPxX; i += szX){
+		for (int i = 0; i < parent.getBitmap().getWidth(); i++)
+		{
+			for (int j = 0; j < parent.getBitmap().getHeight(); j++)
+			{
+				toolPaint.setColor(parent.getBitmap().getPixel(i, j));
+				canvas.drawRect(i * szX, j * szY, (i + 1) * szX, (j + 1) * szY, toolPaint);
+			}
+		}
+		
+		for(float i = 0; i <= szX*numPxX; i += szX){
 			canvas.drawLine(i, 0, i, szY*numPxY, linePaint);
 			
 		}
-		for(int i = 0; i <= szY*numPxY; i += szY){
+		for(float i = 0; i <= szY*numPxY; i += szY){
 			canvas.drawLine(0, i, szX*numPxX, i, linePaint);
 		}
+		//canvas.getMatrix().invert(inverse);
 		canvas.restore();
 		
 		invalidate();

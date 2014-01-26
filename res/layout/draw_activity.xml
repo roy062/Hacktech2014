@@ -16,25 +16,32 @@
         android:layout_alignParentBottom="true"
         />
     
+    <TextView
+        android:id="@+id/dummy"
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        />
+    
     <com.ripecho.hacktech2014.PixelGridView
         android:id="@+id/pixel_grid"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@id/tool_bar"
+        android:layout_below="@id/dummy"
         />
     
-   
-    <com.ripecho.hacktech2014.ColorPaletteView
+   <com.ripecho.hacktech2014.ColorPaletteView
         android:id="@+id/color_palette"
         android:layout_width="fill_parent"
         android:layout_height="80dp"
         android:layout_alignParentTop="true"
         />
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="80dp"
-        android:onClick="testFunc"
-        android:layout_below="@id/color_palette"
+   
+   <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/backaround"
         />
 
 </RelativeLayout>

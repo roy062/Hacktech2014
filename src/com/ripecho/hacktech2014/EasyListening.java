@@ -1,4 +1,4 @@
-package com.ripecho.hacktech2014;
+/*package com.ripecho.hacktech2014;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -18,4 +18,4 @@ public class EasyListening {
 		}
 	}
 	
-}
+}*/
