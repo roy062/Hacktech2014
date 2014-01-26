@@ -141,6 +141,18 @@ public class PixelGridView extends View {
 		else szY = szX;
 	}
 	
+	private int convertX(float x){
+		float temp = x/width;
+		temp = temp*numPxX;
+		return (int)temp;
+	}
+	
+	private int convertY(float y){
+		float temp = y/height;
+		temp = temp*numPxY;
+		return (int)temp;
+	}
+	
 	protected void onDraw(Canvas canvas){
 		super.onDraw(canvas);
 		
