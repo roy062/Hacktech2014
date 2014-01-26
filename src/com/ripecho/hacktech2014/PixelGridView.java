@@ -17,6 +17,7 @@ public class PixelGridView extends View implements View.OnClickListener{
 	private Paint linePaint;
 	private Paint toolPaint;
 	private Paint bgPaint;
+	private Paint testPaint;
 	private float szX;
 	private float szY;
 	private int numPxX;
@@ -44,10 +45,12 @@ public class PixelGridView extends View implements View.OnClickListener{
 		linePaint = new Paint();
 		toolPaint = new Paint();
 		bgPaint = new Paint();
+		testPaint = new Paint();
 		
 		linePaint.setColor(Color.BLACK);
 		linePaint.setStrokeWidth(0);
 		toolPaint.setColor(parent.getColor());
+		testPaint.setColor(Color.MAGENTA);
 		bgPaint.setColor(Color.LTGRAY);
 		bgPaint.setStyle(Paint.Style.FILL);
 		setBackgroundColor(Color.DKGRAY);
@@ -155,7 +158,7 @@ public class PixelGridView extends View implements View.OnClickListener{
 		/*float temp = x/width;
 		temp = temp*numPxX;
 		return (int)temp;*/
-		return (int)((x - mPosX / mScaleFactor) / mScaleFactor / szX);
+		return (int)((x - mPosX)/(mScaleFactor*szX));
 		//return (int)x;
 	}
 	
@@ -163,7 +166,7 @@ public class PixelGridView extends View implements View.OnClickListener{
 		/*float temp = y/height;
 		temp = temp*numPxY;
 		return (int)temp;*/
-		return (int)((y - mPosY / mScaleFactor) / mScaleFactor / szY);
+		return (int)((y - mPosY)/(mScaleFactor*szY));
 	}
 	
 	private void convertCoord(float x, float y)
@@ -188,8 +191,11 @@ public class PixelGridView extends View implements View.OnClickListener{
 		super.onDraw(canvas);
 		
 		canvas.save();
-		canvas.scale(mScaleFactor, mScaleFactor, width/2, height/2);
-		//canvas.scale(mScaleFactor, mScaleFactor);
+		//canvas.scale(mScaleFactor, mScaleFactor, width/2, height/2);
+		
+		//canvas.drawCircle(mPosX, mPosY, 15, testPaint);
+		
+		canvas.scale(mScaleFactor, mScaleFactor);
 		canvas.translate(mPosX/(mScaleFactor), mPosY/(mScaleFactor));
 		canvas.drawRect(0, 0, szX*numPxX, szY*numPxY, bgPaint);
 		for (int i = 0; i < parent.getBitmap().getWidth(); i++)
@@ -210,7 +216,9 @@ public class PixelGridView extends View implements View.OnClickListener{
 		}
 		//canvas.getMatrix().invert(inverse);
 		canvas.restore();
-		
+		//testPaint.setColor(Color.RED);
+		//testPaint.setStrokeWidth(5);
+		//canvas.drawLine(mPosX,mPosY, mPosX+szX*mScaleFactor, mPosY,testPaint);
 		invalidate();
 	}
 	
@@ -220,9 +228,8 @@ public class PixelGridView extends View implements View.OnClickListener{
 	    	mScaleFactor *= detector.getScaleFactor();
 	        
 	        // Don't let the object get too small or too large.
-	        mScaleFactor = Math.max((8/numPxX), Math.min(mScaleFactor, numPxX/6f));
-	        if(mScaleFactor>SOME_CONSTANT_TBD)
-	        	setDrawingArea(parent.getBitmap().getWidth(), parent.getBitmap().getHeight());
+	        if(mScaleFactor<.5f)mScaleFactor = .5f;
+	        else if(mScaleFactor>5f)mScaleFactor = 5f;
 	        	
 	        invalidate();
 	        return true;
