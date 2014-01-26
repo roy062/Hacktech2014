@@ -3,6 +3,7 @@ package com.ripecho.hacktech2014;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -12,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
@@ -22,6 +24,7 @@ public class DrawActivity extends Activity implements PopupMenu.OnMenuItemClickL
 	
 	private final static int DEFAULT_DIMENSION = 32;
 	
+	private String filename = "Untitled";
 	private int new_width = DEFAULT_DIMENSION, new_height = DEFAULT_DIMENSION;
 	private int curColor = Color.BLACK;
 	private boolean colorLock = false;
@@ -158,6 +161,24 @@ public class DrawActivity extends Activity implements PopupMenu.OnMenuItemClickL
 		case R.id.open_menu:
 			return true;
 		case R.id.save_menu:
+			try
+			{
+				Log.d("DEBUG", "" + Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()));
+				FileOutputStream fos = new FileOutputStream(new File(Environment.getExternalStoragePublicDirectory(
+			            Environment.DIRECTORY_PICTURES), filename + ".png"));
+				if (bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos))
+					Log.d("DEBUG", "true");
+				fos.close();
+				Log.d("DEBUG",Environment.getExternalStoragePublicDirectory(
+			            Environment.DIRECTORY_PICTURES).getAbsolutePath());
+			}
+			catch (FileNotFoundException e)
+			{
+				Log.d("DEBUG", "ERROR");
+			}
+			catch (IOException e)
+			{
+			}
 			return true;
 		case R.id.options_menu:
 			Intent intent = new Intent(this, OptionsActivity.class);
@@ -185,5 +206,6 @@ public class DrawActivity extends Activity implements PopupMenu.OnMenuItemClickL
 			bitmap = new_bitmap;
 			((PixelGridView)findViewById(R.id.pixel_grid)).updateSize();
 		}
+		filename = sp.getString("filename_key",  "Untitled");
 	}
 }
