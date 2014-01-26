@@ -5,18 +5,23 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
+import android.os.Bundle;
 
 public class ToolBarView extends View {
 
 	private DrawActivity parent;
 	public Tool toolSelect;
 	
+	public void setParent(DrawActivity parent)
+	{
+		this.parent = parent;
+	}
+	
 	public ToolBarView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		parent = (DrawActivity)context;
 		
 		LinearLayout ll = new LinearLayout(parent);
-		
 		Button pencilbtn = new Button(parent);
 		pencilbtn.setText("Pencil");
 		pencilbtn.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
@@ -79,6 +84,8 @@ public class ToolBarView extends View {
 		ll.addView(bucketbtn);
 		ll.addView(filebtn);
 		
+		parent.setContentView(ll);
+		
 	}
 	
 	public Tool setTool(Tool c)
@@ -86,8 +93,4 @@ public class ToolBarView extends View {
 		return toolSelect;
 	}
 
-	public void setParent(DrawActivity parent)
-	{
-		this.parent = parent;
-	}
 }
