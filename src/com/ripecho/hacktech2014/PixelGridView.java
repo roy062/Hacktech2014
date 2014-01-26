@@ -129,7 +129,8 @@ public class PixelGridView extends View {
 	protected void onSizeChanged(int w, int h, int oldw, int oldh){
 		width = (float)w;
 		height = (float)h;
-		setDrawingArea(64,64);
+		//setDrawingArea(64,64);
+		setDrawingArea(parent.getBitmap().getWidth(), parent.getBitmap().getHeight());
 	}
 	
 	private void setDrawingArea(int x, int y){
@@ -172,6 +173,10 @@ public class PixelGridView extends View {
 	    }
 	}
 	
+	public void updateSize()
+	{
+		setDrawingArea(parent.getBitmap().getWidth(), parent.getBitmap().getHeight());
+	}
 }
 
 

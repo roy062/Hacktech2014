@@ -7,10 +7,13 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -19,6 +22,7 @@ public class DrawActivity extends Activity implements PopupMenu.OnMenuItemClickL
 	
 	private final static int DEFAULT_DIMENSION = 32;
 	
+	private int new_width = DEFAULT_DIMENSION, new_height = DEFAULT_DIMENSION;
 	private int curColor = Color.BLACK;
 	private boolean colorLock = false;
 	private Tool curTool = Tool.PENCIL;
@@ -30,7 +34,7 @@ public class DrawActivity extends Activity implements PopupMenu.OnMenuItemClickL
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.draw_activity);
 		
-		bitmap = Bitmap.createBitmap(DEFAULT_DIMENSION, DEFAULT_DIMENSION, Bitmap.Config.ARGB_8888);
+		bitmap = Bitmap.createBitmap(new_width, new_height, Bitmap.Config.ARGB_8888);
 		
 		ColorPaletteView cpv = (ColorPaletteView)findViewById(R.id.color_palette);
 		cpv.setParent(this);
@@ -156,12 +160,30 @@ public class DrawActivity extends Activity implements PopupMenu.OnMenuItemClickL
 		case R.id.save_menu:
 			return true;
 		case R.id.options_menu:
-			//Intent intent = new Intent(this, OptionsActivity.class);
-			//startActivity(intent);
-			//getPe
-			getFragmentManager().beginTransaction().replace(android.R.id.content, new OptionsFragment()).commit();
+			Intent intent = new Intent(this, OptionsActivity.class);
+			startActivity(intent);
+			//getFragmentManager().beginTransaction().replace(android.R.id.content, new OptionsActivity()).commit();
 			return true;
 		}
 		return false;
+	}
+	
+	protected void onRestart()
+	{
+		super.onRestart();
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+		// Replace bitmap if different size is specified
+		
+		if (Integer.parseInt(sp.getString("width_key", "-1")) != bitmap.getWidth() 
+				|| Integer.parseInt(sp.getString("height_key", "-1")) != bitmap.getHeight())
+		{
+			Bitmap new_bitmap = Bitmap.createBitmap(Integer.parseInt(sp.getString("width_key", "-1")), Integer.parseInt(sp.getString("height_key", "-1")), Bitmap.Config.ARGB_8888);
+			for (int i = 0; i < bitmap.getWidth(); i++)
+				for (int j = 0; j < bitmap.getHeight(); j++)
+					if (i < new_bitmap.getWidth() && j < new_bitmap.getHeight())
+						new_bitmap.setPixel(i, j, bitmap.getPixel(i, j));
+			bitmap = new_bitmap;
+			((PixelGridView)findViewById(R.id.pixel_grid)).updateSize();
+		}
 	}
 }

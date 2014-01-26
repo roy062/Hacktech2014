@@ -21,10 +21,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-       </activity>
-       <activity
-           android:name="com.ripecho.hacktech2014.OptionsActivity"
-        	/>
+        </activity>
+        <activity android:name="com.ripecho.hacktech2014.OptionsActivity" />
+        <activity
+            android:name="com.ripecho.hacktech2014.SettingsActivity"
+            android:label="@string/cancel" >
+        </activity>
     </application>
 
 </manifest>
