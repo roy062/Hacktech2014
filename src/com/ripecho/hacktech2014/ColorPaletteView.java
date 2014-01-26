@@ -37,6 +37,10 @@ public class ColorPaletteView extends View implements View.OnClickListener, OnLo
 			paletteColors[i] = Color.TRANSPARENT;
 		}
 		cwheel = new ColorWheelDialog();
+		//DUMMY TIME
+		for(int i =0; i<16; i++){
+			paletteColors[i]=Color.rgb((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255));
+		}
 		color = new Paint();
 		Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
 		Point size = new Point();
