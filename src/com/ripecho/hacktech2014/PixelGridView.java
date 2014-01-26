@@ -15,7 +15,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-public class PixelGridView extends View {
+public class PixelGridView extends View implements View.OnClickListener{
 	private DrawActivity parent;
 	private Paint linePaint;
 	private Paint toolPaint;
@@ -36,6 +36,7 @@ public class PixelGridView extends View {
 	private float mLastTouchX;
 	private float mLastTouchY;
 	private float mScaleFactor = 1.f;
+	private Bitmap gridMap; 
 
 	
 	public PixelGridView(Context context, AttributeSet attrs) {
@@ -52,6 +53,9 @@ public class PixelGridView extends View {
 		bgPaint.setStyle(Paint.Style.FILL);
 		setBackgroundColor(Color.DKGRAY);
 		sgd = new ScaleGestureDetector(context, new ScaleListener());
+		
+		this.setOnClickListener(this);
+		gridMap = parent.getBitmap();
 	}
 
 	public boolean onTouchEvent(MotionEvent ev) {
@@ -152,6 +156,15 @@ public class PixelGridView extends View {
 		temp = temp*numPxY;
 		return (int)temp;
 	}
+	
+	private void updateBitmap(float x, float y, Bitmap bmp, int col){
+		bmp.setPixel(convertX(x), convertY(y), col);
+	}
+	
+	public void onClick(View v){
+		updateBitmap(v.getX(),v.getY(),gridMap,parent.getColor());
+	}
+
 	
 	protected void onDraw(Canvas canvas){
 		super.onDraw(canvas);
