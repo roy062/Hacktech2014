@@ -146,7 +146,7 @@ public class PixelGridView extends View {
 		
 		canvas.save();
 		canvas.scale(mScaleFactor, mScaleFactor, width/2, height/2);
-		canvas.translate(mPosX, mPosY);
+		canvas.translate(mPosX/(2*mScaleFactor), mPosY/(2*mScaleFactor));
 		canvas.drawRect(0, 0, szX*numPxX, szY*numPxY, bgPaint);
 		for(int i = 0; i <= szX*numPxX; i += szX){
 			canvas.drawLine(i, 0, i, szY*numPxY, linePaint);
@@ -166,7 +166,7 @@ public class PixelGridView extends View {
 	    	mScaleFactor *= detector.getScaleFactor();
 	        
 	        // Don't let the object get too small or too large.
-	        mScaleFactor = Math.max((8/numPxX), Math.min(mScaleFactor, 5f));
+	        mScaleFactor = Math.max((8/numPxX), Math.min(mScaleFactor, numPxX/6f));
 
 	        invalidate();
 	        return true;
