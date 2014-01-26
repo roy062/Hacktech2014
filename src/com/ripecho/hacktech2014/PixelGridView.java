@@ -26,6 +26,7 @@ public class PixelGridView extends View implements View.OnClickListener{
 	private ScaleGestureDetector sgd;
 	
 	
+	private static final float SOME_CONSTANT_TBD = .5f;
 	private static final int INVALID_POINTER_ID = -1;
 	private int mActivePointerId = INVALID_POINTER_ID;
 	private float mPosX;
@@ -220,7 +221,9 @@ public class PixelGridView extends View implements View.OnClickListener{
 	        
 	        // Don't let the object get too small or too large.
 	        mScaleFactor = Math.max((8/numPxX), Math.min(mScaleFactor, numPxX/6f));
-
+	        if(mScaleFactor>SOME_CONSTANT_TBD)
+	        	setDrawingArea(parent.getBitmap().getWidth(), parent.getBitmap().getHeight());
+	        	
 	        invalidate();
 	        return true;
 	    }
